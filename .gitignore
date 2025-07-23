@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Allow these:
+!.gitignore
+!*/               # Unignore all folders so nested .rs files can be found
+!**/*.rs          # Unignore all .rs files recursively
+!Cargo.toml
+!Cargo.lock
