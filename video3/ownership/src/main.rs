@@ -36,17 +36,19 @@
 fn main() {
     let s = String::from("hello");
 
-    takes_ownership(s);
-
-    let x = 5;
-    makes_copy(x);
+    takes_ownership(s);     //s value moves in the function and is not valid here, 's' goes out of scope here and the value of the trio [ptr,len, capacity] in the main function is invalidated
+    println!("This will not work: {}", s); // this will cause an error as s is no longer valid
+    let x = 5;  
+    makes_copy(x);          //x will move into the function but i32 it is a copy so can be used here as well
+    println!("The value of x is: {}", x); // this will work as i32 is a copy type and x is still valid 
 }
 
 
 fn takes_ownership(some_string: String){
-    println!("The string is: {}", some_string);
+    println!("The string is: {}", some_string);         // some_string contains the stack part of the String i..e ptr, capacity and length
 }
 
 fn makes_copy(some_int: i32){
     println!("The integer is: {}", some_int);
 }  
+
