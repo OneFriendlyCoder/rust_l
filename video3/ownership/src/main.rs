@@ -1,54 +1,38 @@
-// fn main() {
-//     // let mut s = "Hello";
-//     // s.push_str("_world0");                         //this can't be mutated, thus push_str is not defined for &str 
-//     // let mut s1 = String::from("Hello");          //this string can be mutated
-//     // s1.push_str("_world");
-//     // println!("{}", s1); 
-
-
-//     //Integers are simple values and are stored on the stack.
-//     // When we assign an integer to another variable, it copies the value.
-//     // This is called a "copy" type.
-//     // If we change the value of one variable, it does not affect the other. 
-//     // let mut x = 5;
-//     // let y = x;
-//     // x += 1; 
-//     // println!("x: {}, y: {}", x, y);
-
-//     //this is a move
-//     let s1 = String::from("Hello");     
-//     let s2 = s1;            //s1 is "moved" to s2, not copied and this operation is inexpensive
-//     println!("The s1 string is : {}", s2);
-
-
-//     //this is a clone
-//     let s3 = String::from("Baby");
-//     let mut s4 = s3.clone();
-//     s4.push_str("girl");
-//     println!("The s3 : {}, s4 : {}", s3,s4);
-
-//     // println!("Hello, world!");
-// }
-
-
-//OWNERSHIP AND FUNCTIONS
+// REFERENCES AND BORROWING 
 
 fn main() {
-    let s = String::from("hello");
+    let mut s1 = String::from("Hello");
 
-    takes_ownership(s);     //s value moves in the function and is not valid here, 's' goes out of scope here and the value of the trio [ptr,len, capacity] in the main function is invalidated
-    println!("This will not work: {}", s); // this will cause an error as s is no longer valid
-    let x = 5;  
-    makes_copy(x);          //x will move into the function but i32 it is a copy so can be used here as well
-    println!("The value of x is: {}", x); // this will work as i32 is a copy type and x is still valid 
+    // change(&s1);
+    change_mutable(&mut s1);
+    let len = calculate_length(&s1);                // passing a reference to s1, so it is not moved
+    println!("The length of '{}' is {}.", s1, len);
 }
 
 
-fn takes_ownership(some_string: String){
-    println!("The string is: {}", some_string);         // some_string contains the stack part of the String i..e ptr, capacity and length
+fn calculate_length(s: &String) -> usize { // s is a reference to a String. 's' contains the pointer to s1 and not the actual String "hello"
+    s.capacity() // returning the length of the string
 }
 
-fn makes_copy(some_int: i32){
-    println!("The integer is: {}", some_int);
-}  
+// making changes to borrowed values is not allowed
+// fn change (some_String: &String) {
+//     some_String.push_str(", world!"); // this will not compile because we are trying to change a borrowed value
+//     // even though some_String points to a memory location in the stack which is not the actual string, the function .push_str can change the string value, if it is a mutable reference to the string.
+// }
 
+fn change_mutable(s: &mut String) {
+    s.push_str(", world!");
+}
+// since 's' is a reference, we can still use 's1' after the function call
+// also since it is a reference, we do not take ownership of the String, so it is not moved and nothing happens when it goes out of scope
+// reference are immutable, by default
+// we can only have one mutable reference to a value in a particular scope
+// we can define a scope using the curly braces {} use the mutable references in that scope and then go out of the scope
+// we can also not have a mutable reference and an immutable reference to the same value in the same scope
+// multiple immutable references are allowed in the same scope
+// The last usage of a mutable reference must be after the last usage of an immutable reference to the same value in the same scope
+
+
+// REFERENCES RULES : 
+// 1. At any given time, you can have either one mutable reference or any number of immutable references.
+// 2. References must always be valid.
