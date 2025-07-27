@@ -45,7 +45,7 @@ fn second_word(s: &String) -> (usize, usize){
 //string slice : A string slice is a reference to part of a String
 // similar to how we pass the reference to the String, we can do the same with slices
 
-fn first_word(s: &String) -> &str{          //&str is the type of a string slice
+fn first_word(s: &str) -> &str{          //&str is the type of a string slice, &str can be to refer the whole string or a part of string as well, so &str works for both string literals/slices(type::str) and Strings(type::String) 
     let bytes = s.as_bytes();
     for (i, &item) in bytes.iter().enumerate() {
         if item == b' ' {
