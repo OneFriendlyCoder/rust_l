@@ -41,11 +41,41 @@ struct Rectangle {
     height: u32,
 }
 
+impl Rectangle {        // impl block is used to define methods for structs, traits and enums
+    fn area(&self) -> u32 {             // self is a reference to the instance of the struct, allowing us to access its fields
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width >= other.width && self.height >= other.height
+    }
+}
+// methods can borrow self immutably or mutably, but not both at the same time, just like with function parameters
+
 fn main() {
     let rect = Rectangle {
         width: 20,
         height: 50,
     };
 
-   println!("The rectangle is: {:?}", rect); // using debug trait to print the struct, {:?} is a format specifier for debug traits and is used to print the values in a user friendly manner
+    let rect1 = Rectangle {
+        width: 20,
+        height: 50,
+    };
+
+    let rect2 = Rectangle {
+        width: 20,
+        height: 40,
+    };
+
+    let rect3 = Rectangle {
+        width: 100,
+        height: 45,
+    };
+
+    println!("The rectangle is: {:?}", rect); // using debug trait to print the struct, {:?} is a format specifier for debug traits and is used to print the values in a user friendly manner
+    println!("The area of the rectangle is: {}", rect.area()); // using the area method of the Rectangle struct
+
+    println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
+    println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
 }
