@@ -29,6 +29,9 @@ fn main() {
         None => println!("There is no third element"),
     }
 
+    let does_not_exist = v.get(100);            // returns an Option<&T> None
+    // let does_not_exist = &v[100];               // panics
+
 }
 
-//22:14
+//when the pgm has a valid reference, the borrow checker enforces the ownsership and borrowing riles to ensure this reference and any other references to the contents of the vector remains valid
