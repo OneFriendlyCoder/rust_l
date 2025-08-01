@@ -6,7 +6,7 @@ fn main(){
     // let post = SocialPost{
     //     username: String::from("Abhyanand"),
     //     content: String::from("This content is so crazy"),
-    //     reply: false,
+    //     reply: false,exi
     //     repost: false,
     // };
     // println!("1 new social post: {}", post.summarize());

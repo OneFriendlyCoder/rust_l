@@ -9,15 +9,39 @@
 
 
 //default behaviour for some or all methods in a trait instead of requiring implementations for all methods on every type
-pub trait Summary{
-
+pub trait Summary{          // Summary trait has been defined on a data type
     fn summarize_author(&self) -> String;
-
     fn summarize(&self) -> String{
         format!("Read more from : {}", self.summarize_author())
     }
 }
 
+
+//defining functions that accept different types using traits 
+// pub fn notify(item: &impl Summary){
+//     println!("Breaking news! {}", item.summarize());
+// }
+
+//or
+pub fn notify<T: Summary>(item: &T){            //trait Bound syntax
+    println!("Breaking news!", item.summarize());
+}
+
+
+//specifying multiple traits using + syntax
+pub fn notify(item: &(impl Summary + Display)) {}
+//or
+pub fn notify<T: Summary + Display>(item: &T){}
+
+
+//clearer trait bounds with where clause
+fn some_function<T:Display + Clone, U:Clone + Debug>(t: &T, u:&U) -> i32{}
+//or
+fn some_function<T,U>(t: &T, u: &U) -> i32
+    where
+    T: Display + Clone,
+    U: Clone + Debug,
+{}
 
 pub struct NewsArticle {
     pub headline: String,
@@ -60,3 +84,12 @@ impl Summary for NewsArticle{
 
 
 //Default implementations can call other methods in the same trait. Even if those methods do not have a default implementaiton
+
+
+
+//functions that returns traits, but this can be used to only return a single type and not multiple types
+// fn returns_summarizable() -> impl Summary{           //this returns the type SocialPost that implements the trait Summary
+//     SocialPost{...}
+// }
+
+
